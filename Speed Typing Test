@@ -1,0 +1,82 @@
+import time
+import random
+
+print("\n \t\t\t ============ Speed Typing Test =========== \t\t\t\t\t\t\t\t\t\t\t\t \n\n")
+class SpeedTypingTest:
+  def __init__(self):
+    self.sentence_length = 100
+    self.difficulty = "easy"
+    self.best_score = 0
+
+  def generate_random_sentence(self):
+    """Generates a random sentence of the given length and difficulty."""
+
+    sentence = ""
+    for i in range(self.sentence_length):
+      if self.difficulty == "easy":
+        sentence += random.choice("abcdefghijklmnopqrstuvwxyz ")
+      elif self.difficulty == "medium":
+        sentence += random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ")
+      elif self.difficulty == "hard":
+        sentence += random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()")
+      else:
+        raise ValueError("Invalid difficulty level: {}".format(self.difficulty))
+    return sentence
+
+  def get_user_input(self, sentence):
+    """Gets the user's input for the given sentence."""
+
+    print(sentence)
+    user_input = input()
+    return user_input
+
+  def calculate_speed(self, start_time, end_time, sentence):
+    """Calculates the user's speed in words per minute (WPM)."""
+
+    time_elapsed = end_time - start_time
+    wpm = len(sentence.split()) / time_elapsed * 60
+    return wpm
+
+  def keep_track_of_best_score(self, new_score):
+    """Keeps track of the user's best score."""
+
+    if new_score > self.best_score:
+      self.best_score = new_score
+
+  def display_timer(self, start_time, end_time):
+    """Displays a timer while the user is typing."""
+
+    time_elapsed = end_time - start_time
+    print("Time elapsed:", time_elapsed)
+
+  def start_test(self):
+    """Starts the speed typing test."""
+
+    # Generate a random sentence.
+    sentence = self.generate_random_sentence()
+
+    # Start the timer.
+    start_time = time.time()
+
+    # Get the user's input.
+    user_input = self.get_user_input(sentence)
+
+    # Stop the timer.
+    end_time = time.time()
+
+    # Calculate the user's speed.
+    wpm = self.calculate_speed(start_time, end_time, sentence)
+
+    # Keep track of the user's best score.
+    self.keep_track_of_best_score(wpm)
+
+    # Display the results to the user.
+    print("Your speed is {} WPM.".format(wpm))
+    print("Your best score is {} WPM.".format(self.best_score))
+
+    # Display a timer.
+    self.display_timer(start_time, end_time)
+
+if __name__ == "__main__":
+  speed_typing_test = SpeedTypingTest()
+  speed_typing_test.start_test()
